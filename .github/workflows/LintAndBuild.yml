@@ -1,0 +1,14 @@
+name: Lint and Build
+on: [push, pull_request]
+jobs:
+  cpplint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🛎️ Checkout
+        uses: actions/checkout@v2
+      - name: Installing Python
+        uses: actions/setup-python@v2
+      - run: pip install cpplint
+
+      - name: 🚀 Running cpplint
+        run: cpplint --recursive .
