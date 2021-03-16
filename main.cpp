@@ -1,47 +1,44 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window/Event.hpp>
 #include <iostream>
-#include <tmxlite/Layer.hpp>
-#include <tmxlite/Map.hpp>
-#include <tmxlite/TileLayer.hpp>
 
 int main() {
   sf::RenderWindow window(sf::VideoMode(800, 600), "SFML window");
-  std::vector<sf::Sprite> map_sprites;
+  window.setFramerateLimit(60);
 
-  tmx::Map map;
-  if (map.load("assets/mapas/mapa.tmx")) {
-    std::cout << "encontré mapa" << std::endl;
-    const auto &layers = map.getLayers();
-    for (const auto &layer : layers) {
-      std::cout << "encontré layer " << layer->getName() << std::endl;
-      if (layer->getType() == tmx::Layer::Type::Object) {
-        const auto &objectLayer = layer->getLayerAs<tmx::ObjectGroup>();
-        const auto &objects = objectLayer.getObjects();
-        for (const auto &object : objects) {
-          std::cout << object.getName() << std::endl;
-        }
+  sf::Texture tx_player;
+  sf::Sprite player;
 
-      } else if (layer->getType() == tmx::Layer::Type::Tile) {
-        const auto &tileLayer = layer->getLayerAs<tmx::TileLayer>();
-      }
-      const auto &tilesets = map.getTilesets();
-      for (const auto &tileset : tilesets) {
-        std::cout << tileset.getName() << std::endl;
-      }
-    }
+  if (!tx_player.loadFromFile("assets/images/player.png")) {
+    std::cout << "Error loading player.png" << std::endl;
   }
+  player.setTexture(tx_player);
+  player.setTextureRect(sf::IntRect(0, 0, 265 / 2, 558 / 4));
+  player.setPosition(sf::Vector2f(400.f, 300.f));
 
-  sf::Clock globalClock;
   while (window.isOpen()) {
     sf::Event event;
     while (window.pollEvent(event)) {
       if (event.type == sf::Event::Closed) window.close();
     }
 
-    // sf::Time duration = globalClock.restart();
+    // Key Management
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+      player.move(-2, 0);
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+      player.move(2, 0);
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+      player.move(0, 2);
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+      player.move(0, -2);
+    }
 
-    window.clear(sf::Color::Black);
+    window.clear(sf::Color::White);
+    // Draw all entities.
+    window.draw(player);
     window.display();
   }
 
