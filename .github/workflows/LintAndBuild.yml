@@ -29,5 +29,12 @@ jobs:
     steps:
       - name: 🛎️ Checkout
         uses: actions/checkout@v2
-      - name: 🔨 Build project
-        uses: nicledomaS/cmake_build_action@v1.3
+      - uses: lukka/get-cmake@latest
+
+      - name: 🔨 Run CMake with Ninja
+        uses: lukka/run-cmake@main
+        id: runcmake
+        with:
+          cmakeListsTxtPath: '${{ github.workspace }}/CMakeLists.txt'
+          useVcpkgToolchainFile: false
+          buildWithCMakeArgs: '-- -v'
