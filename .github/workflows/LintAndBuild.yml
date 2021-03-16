@@ -12,3 +12,22 @@ jobs:
 
       - name: 🚀 Running cpplint
         run: cpplint --recursive .
+  build:
+    name: ${{ matrix.os }}-building
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest, macos-latest, windows-latest ]
+        include:
+          - os: windows-latest
+            triplet: x64-windows
+          - os: ubuntu-latest
+            triplet: x64-linux
+          - os: macos-latest
+            triplet: x64-osx
+    steps:
+      - name: 🛎️ Checkout
+        uses: actions/checkout@v2
+      - name: 🔨 Build project
+        uses: nicledomaS/cmake_build_action@v1.3

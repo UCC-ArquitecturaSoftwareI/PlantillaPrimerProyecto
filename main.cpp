@@ -9,7 +9,7 @@ int main() {
   sf::RenderWindow window(sf::VideoMode(800, 600), "SFML window");
   std::vector<sf::Sprite> map_sprites;
 
-  tmx::Map ma p;
+  tmx::Map map;
   if (map.load("assets/mapas/mapa.tmx")) {
     std::cout << "encontré mapa" << std::endl;
     const auto &layers = map.getLayers();
