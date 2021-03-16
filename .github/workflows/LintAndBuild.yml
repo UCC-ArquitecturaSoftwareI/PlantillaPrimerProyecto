@@ -25,7 +25,10 @@ jobs:
 
       - name: Install Linux Dependencies
         if: runner.os == 'Linux'
-        run: sudo apt-get update && sudo apt-get install libxrandr-dev libxcursor-dev libudev-dev libopenal-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev
+        run: sudo apt install libsfml-dev
+      - name: Install dependencies (macOS)
+        if: runner.os == 'MacOS'
+        run: brew install sfml
 
       - name: Configure CMake
         shell: bash
